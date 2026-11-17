@@ -100,6 +100,7 @@ Use a modern browser with Fetch API, Local Storage, and Geolocation support. For
 - [x] Weather icons and dynamic rainy background
 - [x] Five-day forecast with date, temperature, wind, and humidity/rain information
 - [x] README documentation
+- [x] Reduced-motion preference and accessible forecast labeling
 
 ## Before submission
 
