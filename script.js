@@ -32,6 +32,7 @@ async function searchCity(city) {
     if (!data.results?.length) throw new Error(`We couldn't find “${query}”. Check the spelling and try again.`);
     const place = data.results[0];
     await loadWeather({ name: place.name, admin1: place.admin1, country: place.country, latitude: place.latitude, longitude: place.longitude });
+    $('city-input').value = '';
     saveRecent(place.name);
   } catch (error) { showToast(error.message || 'Something went wrong while searching.'); $('city-name').textContent = 'Location not found'; $('condition').textContent = 'Try another city name'; }
 }
