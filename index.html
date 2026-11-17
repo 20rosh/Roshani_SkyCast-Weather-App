@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A responsive weather dashboard with live conditions and a five-day forecast." />
+  <title>SkyCast — Weather, beautifully clear</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Manrope', 'sans-serif'] } } } }
+  </script>
+</head>
+<body class="weather-sunny min-h-screen text-white font-sans">
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <main class="relative z-10 mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <header class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+      <a href="#top" class="flex items-center gap-3" aria-label="SkyCast home">
+        <span class="brand-mark">✦</span><span class="font-display text-2xl font-extrabold tracking-tight">skycast<span class="text-white/55">.</span></span>
+      </a>
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <form id="search-form" class="search-wrap flex items-center gap-2 rounded-2xl px-4 py-3" role="search">
+          <span class="text-white/60">⌕</span>
+          <input id="city-input" class="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/55 sm:w-56" type="search" placeholder="Search a city..." autocomplete="off" aria-label="Search city" />
+          <button class="rounded-xl bg-white/15 px-3 py-1.5 text-xs font-semibold transition hover:bg-white/25" type="submit">Search</button>
+        </form>
+        <button id="location-btn" class="glass-button rounded-2xl px-4 py-3 text-sm font-semibold transition hover:bg-white/20" type="button">◎ Use my location</button>
+      </div>
+    </header>
+
+    <section class="mt-8 grid gap-5 lg:grid-cols-[1.55fr_0.85fr]" id="top">
+      <section class="hero-panel glass-panel rounded-[2rem] p-6 sm:p-9" aria-live="polite">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div><p class="eyebrow">CURRENT WEATHER</p><h1 id="city-name" class="mt-2 font-display text-3xl font-extrabold sm:text-4xl">Loading weather...</h1><p id="date-line" class="mt-2 text-sm text-white/65">Please wait</p></div>
+          <div class="relative">
+            <label for="recent-cities" class="sr-only">Recently searched cities</label>
+            <select id="recent-cities" class="recent-select hidden rounded-xl px-3 py-2 text-xs" aria-label="Recently searched cities"><option value="">Recent searches</option></select>
+          </div>
+        </div>
+        <div class="mt-8 flex flex-col items-center justify-between gap-5 sm:flex-row sm:items-center">
+          <div class="order-2 text-center sm:order-1 sm:text-left">
+            <div class="flex items-start justify-center sm:justify-start"><span id="temperature" class="font-display text-8xl font-extrabold leading-none tracking-[-0.08em] sm:text-9xl">--</span><span class="mt-2 text-3xl font-semibold">°<span id="unit-symbol">C</span></span></div>
+            <p id="condition" class="mt-3 text-xl font-semibold">Getting conditions...</p>
+            <p id="feels-like" class="mt-1 text-sm text-white/65">Feels like --°</p>
+            <div class="mt-5 flex justify-center gap-2 sm:justify-start"><button id="celsius-btn" class="unit-btn active" type="button">°C</button><button id="fahrenheit-btn" class="unit-btn" type="button">°F</button></div>
+          </div>
+          <div class="order-1 weather-art sm:order-2" id="weather-art" aria-hidden="true">☀️</div>
+        </div>
+        <div id="alert-area" class="mt-7 hidden rounded-2xl border border-amber-200/30 bg-amber-300/15 px-4 py-3 text-sm text-amber-50" role="status"></div>
+      </section>
+
+      <aside class="glass-panel rounded-[2rem] p-6 sm:p-7">
+        <div class="flex items-center justify-between"><div><p class="eyebrow">AT A GLANCE</p><h2 class="mt-1 font-display text-xl font-bold">Today's details</h2></div><span class="text-2xl">◌</span></div>
+        <div class="mt-6 grid grid-cols-2 gap-3">
+          <article class="metric-card"><span class="metric-icon">💧</span><p class="metric-label">Humidity</p><p class="metric-value"><span id="humidity">--</span><small>%</small></p></article>
+          <article class="metric-card"><span class="metric-icon">🌬️</span><p class="metric-label">Wind speed</p><p class="metric-value"><span id="wind">--</span><small> km/h</small></p></article>
+          <article class="metric-card"><span class="metric-icon">☀️</span><p class="metric-label">UV index</p><p class="metric-value" id="uv-index">--</p></article>
+          <article class="metric-card"><span class="metric-icon">🌡️</span><p class="metric-label">Feels like</p><p class="metric-value"><span id="side-feels">--</span><small>°C</small></p></article>
+        </div>
+        <div class="mt-5 rounded-2xl bg-white/10 p-4"><div class="flex items-center justify-between text-sm"><span class="text-white/65">Sunrise</span><strong id="sunrise">--:--</strong></div><div class="my-3 h-px bg-white/15"></div><div class="flex items-center justify-between text-sm"><span class="text-white/65">Sunset</span><strong id="sunset">--:--</strong></div></div>
+      </aside>
+    </section>
+
+    <section class="mt-6 glass-panel rounded-[2rem] p-6 sm:p-8">
+      <div class="flex flex-wrap items-end justify-between gap-3"><div><p class="eyebrow">THE WEEK AHEAD</p><h2 class="mt-1 font-display text-2xl font-extrabold">5-day forecast</h2></div><p class="text-xs text-white/55">Your next five days, at a glance</p></div>
+      <div id="forecast-grid" class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"><div class="forecast-skeleton">Loading forecast...</div></div>
+    </section>
+
+    <footer class="flex flex-col items-center justify-between gap-2 py-7 text-xs text-white/45 sm:flex-row"><p>© <span id="year"></span> SkyCast. Made for curious skies.</p><p>Weather data by Open-Meteo · Geocoding by Open-Meteo</p></footer>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
