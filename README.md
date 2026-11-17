@@ -81,6 +81,10 @@ The assignment requests at least 12 meaningful commits. Suggested milestones (us
 
 To inspect the history, run `git log --oneline` in the project directory.
 
+## Browser compatibility
+
+Use a modern browser with Fetch API, Local Storage, and Geolocation support. For location access, serve the page from localhost or an HTTPS origin. If location permission is unavailable, city search remains fully usable.
+
 ## Assignment checklist
 
 - [x] HTML, CSS, and JavaScript project structure
