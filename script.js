@@ -104,6 +104,7 @@ function renderRecent(list = JSON.parse(localStorage.getItem('skycast-recent') |
 function escapeHtml(value) { return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char])); }
 
 function useMyLocation() {
+  if (!window.isSecureContext) { showToast('Location access requires HTTPS or localhost. You can still search for a city.'); return; }
   if (!navigator.geolocation) { showToast('Location services are not supported by this browser.'); return; }
   $('location-btn').disabled = true; $('location-btn').textContent = 'Locating...';
   navigator.geolocation.getCurrentPosition(async position => {
